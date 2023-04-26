@@ -7,7 +7,7 @@ import spacy
 load_model = spacy.load('en_core_web_sm',disable= ['parser','ner'])
 
 requirements = ["budget","insurance","chronic","disease","yearly",
-                "income","family","package","job","beneficiary"]
+                "income","package","job","beneficiary"]
 
 def requirement_check(message):
     
@@ -24,13 +24,17 @@ def requirement_check(message):
 def question_user(intents):
 
     base = "Sorry, can we also have information about your "
-    for intent in intents:
-        if intent.upper() == "INSURANCE":
-            base += intent + " package,"
-        else:
-            base += intent + ", "
-    # Replacing the end "," by "?"
-    base = base[:-1] + "?"
+
+    if "insurance" or "package" in intents:
+        base += " insurance package,"
+    if "chronic" or "disease" in intents:
+        base += "chronics diseases, "
+    if "yearly" or "income" in intents:
+        base += "yearly income, "
+    if  "beneficiary" in intents :
+        base += "beneficiary"
+    if "job" in intents :
+        base += " and your current job ?"
     return base
 
 
