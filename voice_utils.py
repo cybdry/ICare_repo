@@ -6,8 +6,8 @@ from gtts import gTTS
 
 
 model = whisper.load_model("base")
-audio_file = "./openai_output.mp3"
-language = "en"
+audio_file = "openai_output.mp3"
+language = "es"
 
 def convert_audio_to_text(audio_voice):
     print("convert_audio_to_text called")
@@ -29,9 +29,9 @@ def convert_audio_to_text(audio_voice):
     return result_text,audio_file
 
 
-def convert_text_to_audio(text_t,language,audio_file):
+def convert_text_to_audio(text_t,language_t,audio_file):
     audio_obj  = gTTS(text = text_t,
-                      lang = language,
+                      lang = language_t,
                       slow = False)
     audio_obj.save(audio_file)
     return audio_file
