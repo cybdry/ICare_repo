@@ -14,7 +14,7 @@ import whisper
 from googletrans import Translator
 
 
-openai.api_key = os.getenv("A_OPENAI_KEY")
+openai.api_key = "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"
 
 message_from_box1 = " "
 open_ai_output = " "
@@ -34,7 +34,7 @@ def chatgpt_api(input_text):
         chat_completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo", messages=messages
         )
-        reply = chat_completion.choices[0].messages.content
+        reply = chat_completion.choices[0].message.content
         return reply
     else:
         raise ValueError("Input must not be empty")
@@ -49,7 +49,9 @@ def get_api_wrappper(audio):
 
     if key:
         open_ai_output = chatgpt_api(get_user[0])
-        translated = translator.translate(open_ai_output, src="en", dest="es")
+
+        translated = translator.translate(
+            open_ai_output, src="en", dest="es").text
         audio_file_spanish = convert_text_to_audio(
             translated, "es", "openai_output.mp3")
 
@@ -69,7 +71,6 @@ def gradio_interface():
     output_1 = gr.Textbox(label="Speech To Text(English)")
     output_2 = gr.Textbox(label="Api output")
     output_3 = gr.Audio(audio_file)
-    inputs = ["mic"]
 
     gradio_launcher = gr.Interface(
         title="ICare Web Interface",
